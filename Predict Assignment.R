@@ -29,15 +29,13 @@ split <- createDataPartition(y=data$classe, p=.70,list=F)
 training <- data[split,]
 testing <- data[-split,]
 
-'3 Since the 160 variables in the training data is too large, clean the 
-data by 
-1) excluding variables which apparently cannot be explanatory variables, 
-2) reducing variables with little information.'
+'3 Since the 160 variables in the training data is too large, clean the data by'
 
-#exclude identifier, timestamp, and window data (they cannot be used for prediction)
+'1) excluding variables which apparently cannot be explanatory variables'
 Cl <- grep("name|timestamp|window|X", colnames(training), value=F) 
 trainingCl <- training[,-Cl]
-#select variables with high (over 95%) missing data --> exclude them from the analysis
+
+'2) reducing variables with little information.'
 trainingCl[trainingCl==""] <- NA
 NArate <- apply(trainingCl, 2, function(x) sum(is.na(x)))/nrow(trainingCl)
 trainingCl <- trainingCl[!(NArate>0.95)]
@@ -56,8 +54,8 @@ trainingPC <- predict(preProc,trainingCl[,1:52])
 library(randomForest)
 modFitRF <- randomForest(trainingCl$classe ~ .,   
                          data=trainingPC, do.trace=F)
-print(modFitRF) # view results 
-importance(modFitRF) # importance of each predictor
+print(modFitRF)
+importance(modFitRF)
 
 '6 Check the model with the testing data set'
 testingCl <- testing[,-Cl]
@@ -75,3 +73,4 @@ NArate <- apply(testdataCl, 2, function(x) sum(is.na(x)))/nrow(testdataCl)
 testdataCl <- testdataCl[!(NArate>0.95)]
 testdataPC <- predict(preProc,testdataCl[,1:52])
 testdataCl$classe <- predict(modFitRF,testdataPC)
+                
