@@ -24,7 +24,7 @@ summary(data)
 is used for model building (training data) while the rest of 30% of the data 
 is used for testing (testing data)'
 library(caret)
-set.seed(1111)
+set.seed(1234)
 split <- createDataPartition(y=data$classe, p=.70,list=F)
 training <- data[split,]
 testing <- data[-split,]
