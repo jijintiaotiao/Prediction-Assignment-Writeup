@@ -73,4 +73,6 @@ NArate <- apply(testdataCl, 2, function(x) sum(is.na(x)))/nrow(testdataCl)
 testdataCl <- testdataCl[!(NArate>0.95)]
 testdataPC <- predict(preProc,testdataCl[,1:52])
 testdataCl$classe <- predict(modFitRF,testdataPC)
+testdataCl$classe
+
                 
